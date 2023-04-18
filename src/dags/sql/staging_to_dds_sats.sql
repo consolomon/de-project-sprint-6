@@ -12,7 +12,7 @@ SELECT
     la.hk_l_user_group_activity,
     GL.user_id_from,
     GL.event,
-    GL."datetime" as event_dt,
+    GL.event_ts as event_dt,
     now() as load_dt,
     's3' as load_src
 FROM KOSYAK1998YANDEXRU__DWH.l_user_group_activity AS la
