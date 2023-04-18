@@ -50,7 +50,11 @@ def s3_load_file(bucket: str, key: str, log: Logger) -> None:
     )
     log.info(f"S3: {key} file download succses")
     script = Path(PATH_TO_SCRIPT).read_text()
-    script = script.format(sql_key=key, sql_parameters=SQL_PARAMETERS[key])
+    if SQL_PARAMETERS.keys().__containts__(key):
+        script = script.format(sql_key=key, sql_parameters=SQL_PARAMETERS[key])
+    else:
+        log.error("This source is unacceptable: include it into SQL_PARAMETERS dict")
+        raise KeyError("Key not found in the SQL_PARAMETERS dict")
     log.info("Prepared script to execute:")
     log.info(script)    
     with vertica_python.connect(**CONN_INFO) as connection:
